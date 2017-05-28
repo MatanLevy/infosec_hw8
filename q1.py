@@ -38,8 +38,10 @@ def packet_filter(packet):
     if  S.TCP in packet:
     	if (packet[S.TCP].dport == 80) and (packet.haslayer(S.Raw)):
     		request = str(packet[S.TCP].payload).split()
-    		if request.index('Host:') + 1 == request.index(WEBSITE):
-    			return True
+    		if 'Host:' in request:
+    			if request.index('Host:') + 1 == request.index(WEBSITE):
+    				return True
+    return False
 
 
 def main(args):
