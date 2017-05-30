@@ -1,6 +1,8 @@
 import scapy.all as S
 
 
+#see doc in q3.txt
+
 class ArpPoisoner(object):
     def __init__(self, our_ip, our_mac, gateway_ip, gateway_mac, debug):
         # WARNING: DO NOT EDIT THIS FUNCTION!
@@ -19,7 +21,7 @@ class ArpPoisoner(object):
         """
         ip = packet.getlayer(S.IP)
         ethernet = packet.getlayer(S.Ether)
-        return (ip.src != self.our_ip and ethernet.dst == self.gateway_mac)
+        return ((ip.src != self.our_ip) and (ethernet.dst == self.gateway_mac))
 
     def is_stolen_packet(self, packet):
         """
@@ -30,7 +32,7 @@ class ArpPoisoner(object):
         """
         ip = packet.getlayer(S.IP)
         ethernet = packet.getlayer(S.Ether)
-        return (ip.dst != self.our_ip and self.our_mac == ethernet.dst)
+        return ((ip.dst != self.our_ip) and (self.our_mac == ethernet.dst))
 
     def packet_filter(self, packet):
         """

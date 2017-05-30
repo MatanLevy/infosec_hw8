@@ -1,0 +1,6 @@
+for each packet filtered q1, i.e http request to Webserver infosec17,we send back our response :
+in the ip layer,we just reverse src_ip and dst_ip. same in tcp ports.
+we also want to close connection so we put "FA" flag to close the TCPcon.
+seq number should be the ack number in the last received packet (as defined in TCP protocol)
+ack number should be seq_number + length of TCP_payload.
+finally, the content of httpPayload should be exactly - RESPONE : 302 redirection to facebook site 

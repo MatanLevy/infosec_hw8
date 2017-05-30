@@ -1,0 +1,4 @@
+1.b : filtering only packet that their dest_port is 80-i.e HTTP requeat to web server. in addition this request should be non empty, i.e with Raw level. in addition,the host should be infosec17 website. if all this happens, we return True.
+
+1.c : In addition checking if it is a POST request.if so we extract username and password if nonempty and return tupe (username,password). 
+else return None.

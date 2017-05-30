@@ -1,0 +1,13 @@
+our ip : 10.0.2.15
+our mac : 08:00:27:1a:d5:63
+gateway ip : 10.0.2.1 
+gateway mac : 52:54:00:12:35:00
+
+is_packet_to_original_gateway : we just check to packet is not for us(i.e des_ip is not our_ip)
+and that that is for gateway(not by ip because ip will probably be of outer address) so we check that MAC address is the same.
+
+create_posion : based on "who has" in ARP protocol. I helped this explantation : http://www.aviran.org/arp-poisoning-python-scapy/
+
+we just sent ARP "who has" to our victim, make the victim "think" that we are the gateway by saying that gateway ip is our ip. but writing our mac address. so in the victim table there will be a map : (gateway_ip -> our_mac) and each request will go instead outside to gateway - we will get it.
+
+is_stolen_packet : if the packet was not intented to us(i.e ip dst is not our ip) but actually really sent to us after our ARPposion, i.e dst of mac address is our mac address
